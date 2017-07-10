@@ -164,7 +164,7 @@ int main( int argc, const char** argv )
 
         ocr->performOCR(&pipeline_data);
         ocr->postProcessor.analyze(statecodestr, 25);
-        cout << "OCR results: " << ocr->postProcessor.bestChars << endl;
+        cout << "OCR results: '" << ocr->postProcessor.bestChars <<"'"<< endl;
 
         vector<bool> selectedBoxes(pipeline_data.thresholds.size());
         for (int z = 0; z < pipeline_data.thresholds.size(); z++)
@@ -225,8 +225,17 @@ int main( int argc, const char** argv )
             selectedBoxes[curDashboardSelection] = !selectedBoxes[curDashboardSelection];
             showDashboard(pipeline_data.thresholds, selectedBoxes, curDashboardSelection);
           }
-          else if ((char) waitkey == 's' || (char) waitkey == 'S' )
+          else if ((char) waitkey == 's' || (char) waitkey == 'S' || waitkey == 'W')
           {
+            if (waitkey == 'W')
+            {
+              selectedBoxes[curDashboardSelection] = true;
+              showDashboard(pipeline_data.thresholds, selectedBoxes, curDashboardSelection);
+              const std::string& ocr_str = ocr->postProcessor.bestChars;
+			  std::copy(ocr_str.c_str(), ocr_str.c_str()+ocr_str.length(),humanInputs.begin());
+              // humanInputs.assign(ocr_str.begin(), ocr_str.end());
+            }
+
 
             bool somethingSelected = false;
             bool chardataTagged = false;
@@ -359,7 +368,7 @@ vector<string> showCharSelection(Mat image, vector<Rect> charRegions, string sta
       humanInputs[curCharIdx] = " ";
       curCharIdx++;
     }
-    else if (waitkey > 0 && regex_rule.match(utf8chr(waitkey))) // Verify that it's an actual character
+    else if (waitkey > 0 && regex_rule.match(utf8chr(waitkey)) && waitkey!=255) // Verify that it's an actual character
     {
       // Save the character to disk
       humanInputs[curCharIdx] = utf8chr(waitkey);

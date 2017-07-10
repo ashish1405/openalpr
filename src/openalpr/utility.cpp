@@ -135,31 +135,35 @@ namespace alpr
     int i = 0;
 
     // Adaptive
-    //adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 7, 3);
-    //adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 13, 3);
-    //adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 17, 3);
+    // adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 7, 3);
+    // adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 13, 3);
+    // adaptiveThreshold(img_gray, thresholds[i++], 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV , 17, 3);
+	
+    threshold(img_gray, thresholds[i++], 0, 255, THRESH_BINARY_INV | THRESH_OTSU);
+    threshold(img_gray, thresholds[i++], 50, 255, THRESH_BINARY_INV | THRESH_OTSU);
+	threshold(img_gray, thresholds[i++], 127, 255, THRESH_BINARY_INV | THRESH_OTSU);
 
-    // Wolf
-    int k = 0, win=18;
-    //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
-    //bitwise_not(thresholds[i-1], thresholds[i-1]);
-    NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
-    bitwise_not(thresholds[i-1], thresholds[i-1]);
-
-    k = 1;
-    win = 22;
-    NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
-    bitwise_not(thresholds[i-1], thresholds[i-1]);
-    //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
-    //bitwise_not(thresholds[i-1], thresholds[i-1]);
-
-    // Sauvola
-    k = 1;
-    NiblackSauvolaWolfJolion (img_gray, thresholds[i++], SAUVOLA, 12, 12, 0.18 * k);
-    bitwise_not(thresholds[i-1], thresholds[i-1]);
-    //k=2;
-    //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], SAUVOLA, 12, 12, 0.18 * k);
-    //bitwise_not(thresholds[i-1], thresholds[i-1]);
+    // // Wolf
+   //  int k = 0, win=18;
+   //  //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
+   //  //bitwise_not(thresholds[i-1], thresholds[i-1]);
+   //  NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
+   //  bitwise_not(thresholds[i-1], thresholds[i-1]);
+   //
+   //  k = 1;
+   //  win = 22;
+   //  NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
+   //  bitwise_not(thresholds[i-1], thresholds[i-1]);
+   //  //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], WOLFJOLION, win, win, 0.05 + (k * 0.35));
+   //  //bitwise_not(thresholds[i-1], thresholds[i-1]);
+   //
+   //  // Sauvola
+   //  k = 1;
+   //  NiblackSauvolaWolfJolion (img_gray, thresholds[i++], SAUVOLA, 12, 12, 0.18 * k);
+   //  bitwise_not(thresholds[i-1], thresholds[i-1]);
+   //  //k=2;
+   //  //NiblackSauvolaWolfJolion (img_gray, thresholds[i++], SAUVOLA, 12, 12, 0.18 * k);
+   //  //bitwise_not(thresholds[i-1], thresholds[i-1]);
 
     if (config->debugTiming)
     {
